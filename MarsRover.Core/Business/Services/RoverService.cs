@@ -5,42 +5,29 @@ public class RoverService : IRoverService
     // Change the orientation of rover
     private Rover Spin(Rover rover, char instruction)
     {
-        if(instruction == 'L'){
-            
-            switch (rover.Direction)
-            {
-                case 'N':
-                    rover.Direction = 'W';
-                    break;
-                case 'W':
-                    rover.Direction = 'S';
-                    break;
-                case 'S':
-                    rover.Direction = 'E';
-                    break;
-                case 'E':
-                    rover.Direction = 'N';
-                    break;
-            }
+        char[] directions = { 'N', 'E', 'S', 'W' };
+        int index = Array.IndexOf(directions, rover.Direction);
 
+        if(instruction == 'L'){
+            index--;
         }
+        // The other case is only that the instruction is equal to R
         else{
-            switch (rover.Direction)
-            {
-                case 'N':
-                    rover.Direction = 'E';
-                    break;
-                case 'E':
-                    rover.Direction = 'S';
-                    break;
-                case 'S':
-                    rover.Direction = 'W';
-                    break;
-                case 'W':
-                    rover.Direction = 'N';
-                    break;
-            }
+            index++;
         }
+
+        // Keep the index inside the bounds of the array
+        #region ArrayBounds
+        if(index < 0)
+            index += 4;
+
+        int maximumIndex = directions.Length - 1;
+
+        if(index > maximumIndex)
+            index -= 4;
+        #endregion
+
+        rover.Direction = directions[index];
 
         return rover;
     }
